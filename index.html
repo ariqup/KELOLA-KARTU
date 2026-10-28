@@ -255,7 +255,11 @@
     cursor:pointer;
     text-decoration:underline;
   }
+  #qrReader{width:100%; border-radius:14px; overflow:hidden; margin-top:12px; display:none;}
+  #qrReader video{border-radius:14px;}
+  .scan-status{font-size:13px; color:var(--text-secondary); text-align:center; margin-top:10px; display:none;}
 </style>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 </head>
 <body>
 
@@ -268,7 +272,16 @@
   <!-- Masukkan kode kartu (kalau link tidak membawa ?kode=) -->
   <div id="codeView" style="display:none;">
     <h1>Kelola Kartu</h1>
-    <p class="desc">Masukkan kode kartu Anda. Kode ini tertera di link kartu atau di kartu fisik.</p>
+    <p class="desc">Scan kartu Anda untuk mulai mengelola. Bisa scan QR di kartu, atau tempel kartu NFC ke HP.</p>
+
+    <button class="primary" id="scanQrBtn">Scan QR Kartu</button>
+    <button class="secondary" id="scanNfcBtn" style="display:none;">Tap Kartu NFC</button>
+    <div id="qrReader"></div>
+    <p class="scan-status" id="scanStatus"></p>
+    <button class="secondary" id="stopScanBtn" style="display:none;">Batal Scan</button>
+
+    <div class="or-divider">atau ketik kode</div>
+
     <div class="field">
       <label for="codeInput">Kode Kartu</label>
       <input type="text" id="codeInput" placeholder="Contoh: ZN35C7SJ" autocomplete="off" style="text-transform:uppercase;">
@@ -372,6 +385,7 @@ const $ = (id) => document.getElementById(id);
 const views = ['loadingView', 'codeView', 'inactiveView', 'gateView', 'editView'];
 
 function showOnly(id) {
+  if (id !== 'codeView' && typeof stopQrScan === 'function') stopQrScan();
   views.forEach(v => $(v).style.display = (v === id) ? 'block' : 'none');
   $('footerHelp').style.display = (id === 'loadingView') ? 'none' : 'block';
   const msg = 'Halo Admin, saya butuh bantuan untuk Kartu Google Review.' + (CARD_CODE ? '\nKode kartu: ' + CARD_CODE : '');
@@ -625,6 +639,102 @@ $('deactivateBtn').addEventListener('click', async () => {
 });
 
 $('logoutLink').addEventListener('click', () => { verifiedPin = null; loadCard(); });
+
+
+// ---------- SCAN KARTU (QR kamera & NFC) ----------
+// Ambil kode kartu dari hasil scan. Isi QR/NFC biasanya link
+// ariqup.github.io/kartu/?kode=XXXX, tapi kode polos juga diterima.
+function extractCardCode(text) {
+  text = String(text || '').trim();
+  try {
+    const u = new URL(text);
+    const k = u.searchParams.get('kode');
+    if (k) return k.trim().toUpperCase();
+  } catch (e) { /* bukan URL */ }
+  const m = text.match(/kode=([A-Za-z0-9]+)/);
+  if (m) return m[1].toUpperCase();
+  if (/^[A-Za-z0-9]{4,20}$/.test(text)) return text.toUpperCase();
+  return '';
+}
+
+function setScanStatus(msg) {
+  const el = $('scanStatus');
+  el.textContent = msg || '';
+  el.style.display = msg ? 'block' : 'none';
+}
+
+function useScannedCode(raw) {
+  const code = extractCardCode(raw);
+  if (!code) { setScanStatus('Kartu terbaca, tapi kode kartunya tidak dikenali. Coba lagi atau ketik kode manual.'); return false; }
+  stopQrScan();
+  setScanStatus('');
+  CARD_CODE = code;
+  history.replaceState(null, '', window.location.pathname + '?kode=' + encodeURIComponent(CARD_CODE));
+  loadCard();
+  return true;
+}
+
+let qrScanner = null;
+async function startQrScan() {
+  if (typeof Html5Qrcode === 'undefined') { setScanStatus('Fitur scan gagal dimuat. Periksa internet lalu muat ulang halaman.'); return; }
+  $('qrReader').style.display = 'block';
+  $('stopScanBtn').style.display = 'block';
+  $('scanQrBtn').style.display = 'none';
+  setScanStatus('Arahkan kamera ke QR code di kartu...');
+  try {
+    qrScanner = new Html5Qrcode('qrReader');
+    await qrScanner.start(
+      { facingMode: 'environment' },
+      { fps: 10, qrbox: { width: 220, height: 220 } },
+      (decodedText) => { useScannedCode(decodedText); },
+      () => {}
+    );
+  } catch (err) {
+    setScanStatus('Kamera tidak bisa dibuka. Izinkan akses kamera di browser, atau ketik kode manual.');
+    stopQrScan(true);
+  }
+}
+
+async function stopQrScan(keepStatus) {
+  if (qrScanner) {
+    try { await qrScanner.stop(); } catch (e) {}
+    try { qrScanner.clear(); } catch (e) {}
+    qrScanner = null;
+  }
+  $('qrReader').style.display = 'none';
+  $('stopScanBtn').style.display = 'none';
+  $('scanQrBtn').style.display = 'block';
+  if (!keepStatus) setScanStatus('');
+}
+
+$('scanQrBtn').addEventListener('click', startQrScan);
+$('stopScanBtn').addEventListener('click', () => stopQrScan());
+
+// NFC: hanya didukung Chrome di Android
+if ('NDEFReader' in window) {
+  $('scanNfcBtn').style.display = 'block';
+  $('scanNfcBtn').addEventListener('click', async () => {
+    try {
+      const reader = new NDEFReader();
+      await reader.scan();
+      setScanStatus('Tempelkan kartu NFC ke bagian belakang HP...');
+      reader.onreadingerror = () => setScanStatus('Kartu gagal dibaca. Coba tempel lagi lebih lama.');
+      reader.onreading = (event) => {
+        const decoder = new TextDecoder();
+        for (const record of event.message.records) {
+          if (record.recordType === 'url' || record.recordType === 'text' || record.recordType === 'absolute-url') {
+            let text = decoder.decode(record.data);
+            if (record.recordType === 'text') text = text.replace(/^[\s\S]{0,3}?(?=https?:|[A-Za-z0-9])/, '');
+            if (useScannedCode(text)) return;
+          }
+        }
+        setScanStatus('Kartu terbaca, tapi kode kartunya tidak dikenali.');
+      };
+    } catch (err) {
+      setScanStatus('NFC tidak bisa dipakai: aktifkan NFC di HP dan izinkan akses, atau pakai scan QR.');
+    }
+  });
+}
 
 loadCard();
 </script>
