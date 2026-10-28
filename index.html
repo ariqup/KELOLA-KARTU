@@ -7,69 +7,166 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <style>
   :root{
-    --page-bg:#EEF1F5; --card-bg:#FFFFFF; --text-primary:#101828; --text-secondary:#667085;
-    --border:#E4E7EC; --border-focus:#2F6FED; --accent:#2F6FED; --accent-hover:#2559C7;
-    --accent-disabled:#AFC7F5; --success:#16A34A; --success-bg:#F0FBF4;
-    --danger:#D92D20; --danger-bg:#FEF3F2; --danger-hover:#B42318;
+    --page-bg:#EEF1F5;
+    --card-bg:#FFFFFF;
+    --text-primary:#101828;
+    --text-secondary:#667085;
+    --border:#E4E7EC;
+    --border-focus:#2F6FED;
+    --accent:#2F6FED;
+    --accent-hover:#2559C7;
+    --accent-disabled:#AFC7F5;
+    --success:#16A34A;
+    --success-bg:#F0FBF4;
+    --danger:#D92D20;
+    --danger-bg:#FEF3F2;
+    --danger-hover:#B42318;
   }
   *{box-sizing:border-box;}
   body{
-    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-    background:var(--page-bg); font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-    color:var(--text-primary); padding:32px 16px;
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--page-bg);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    color:var(--text-primary);
+    padding:32px 16px;
   }
   .card{
-    width:100%; max-width:420px; background:var(--card-bg); border-radius:28px;
+    width:100%;
+    max-width:420px;
+    background:var(--card-bg);
+    border-radius:28px;
     box-shadow:0 20px 40px -16px rgba(16,24,40,0.18), 0 2px 6px rgba(16,24,40,0.06);
-    padding:32px 28px 28px; animation:rise .4s ease-out;
+    padding:32px 28px 28px;
+    animation:rise .4s ease-out;
   }
-  @keyframes rise{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
-  h1{font-size:24px; font-weight:700; margin:0 0 10px; letter-spacing:-0.01em;}
-  .desc{font-size:14px; line-height:1.55; color:var(--text-secondary); margin:0 0 20px;}
+  @keyframes rise{
+    from{opacity:0; transform:translateY(8px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  h1{
+    font-size:24px;
+    font-weight:700;
+    margin:0 0 10px;
+    letter-spacing:-0.01em;
+  }
+  .desc{
+    font-size:14px;
+    line-height:1.55;
+    color:var(--text-secondary);
+    margin:0 0 20px;
+  }
   .desc b{color:var(--text-primary); font-weight:600;}
-  label{display:block; font-size:14px; font-weight:600; margin-bottom:8px;}
-  .field{margin-bottom:8px; position:relative;}
+  label{
+    display:block;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .field{
+    margin-bottom:8px;
+    position:relative;
+  }
   .field + .field{margin-top:20px;}
   input{
-    width:100%; height:48px; border:1.5px solid var(--border); border-radius:14px;
-    padding:0 16px; font-size:14px; font-family:inherit; color:var(--text-primary);
-    background:#fff; outline:none; transition:border-color .15s ease, box-shadow .15s ease;
+    width:100%;
+    height:48px;
+    border:1.5px solid var(--border);
+    border-radius:14px;
+    padding:0 16px;
+    font-size:14px;
+    font-family:inherit;
+    color:var(--text-primary);
+    background:#fff;
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
   }
   input::placeholder{color:#98A2B3;}
-  input:focus{border-color:var(--border-focus); box-shadow:0 0 0 4px rgba(47,111,237,0.12);}
-  .pin-box{letter-spacing:7px; font-size:18px; font-weight:600; text-align:center;}
+  input:focus{
+    border-color:var(--border-focus);
+    box-shadow:0 0 0 4px rgba(47,111,237,0.12);
+  }
+  .pin-box{
+    letter-spacing:7px;
+    font-size:18px;
+    font-weight:600;
+    text-align:center;
+  }
   .dropdown{
-    position:absolute; top:calc(100% + 6px); left:0; right:0; background:#fff;
-    border:1px solid var(--border); border-radius:14px; box-shadow:0 12px 24px -8px rgba(16,24,40,0.16);
-    max-height:240px; overflow-y:auto; z-index:10; display:none;
+    position:absolute;
+    top:calc(100% + 6px);
+    left:0;
+    right:0;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow:0 12px 24px -8px rgba(16,24,40,0.16);
+    max-height:240px;
+    overflow-y:auto;
+    z-index:10;
+    display:none;
   }
   .dropdown.open{display:block;}
-  .dd-item{padding:12px 16px; cursor:pointer; border-bottom:1px solid #F2F4F7;}
+  .dd-item{
+    padding:12px 16px;
+    cursor:pointer;
+    border-bottom:1px solid #F2F4F7;
+  }
   .dd-item:last-child{border-bottom:none;}
   .dd-item:hover, .dd-item.active{background:#F5F8FF;}
   .dd-name{font-size:14px; font-weight:600; color:var(--text-primary);}
   .dd-addr{font-size:12px; color:var(--text-secondary); margin-top:2px;}
   .dd-empty{padding:16px; font-size:13px; color:var(--text-secondary); text-align:center;}
   .confirm{
-    display:none; font-size:13px; line-height:1.5; color:var(--success);
-    background:var(--success-bg); border-radius:10px; padding:10px 12px; margin-top:10px;
+    display:none;
+    font-size:13px;
+    line-height:1.5;
+    color:var(--success);
+    background:var(--success-bg);
+    border-radius:10px;
+    padding:10px 12px;
+    margin-top:10px;
   }
   .confirm b{font-weight:600;}
-  .pin-hint{font-size:12px; color:var(--text-secondary); margin-top:6px;}
+  .pin-hint{
+    font-size:12px;
+    color:var(--text-secondary);
+    margin-top:6px;
+  }
   .error-msg{
-    font-size:13px; color:var(--danger); background:var(--danger-bg); border-radius:10px;
-    padding:10px 12px; margin-top:14px; display:none;
+    font-size:13px;
+    color:var(--danger);
+    background:var(--danger-bg);
+    border-radius:10px;
+    padding:10px 12px;
+    margin-top:14px;
+    display:none;
   }
   .success-msg{
-    font-size:13px; color:var(--success); background:var(--success-bg); border-radius:10px;
-    padding:10px 12px; margin-top:14px; display:none;
+    font-size:13px;
+    color:var(--success);
+    background:var(--success-bg);
+    border-radius:10px;
+    padding:10px 12px;
+    margin-top:14px;
+    display:none;
   }
   button{
-    width:100%; height:52px; border:none; border-radius:14px; color:#fff; font-size:15px;
-    font-weight:600; font-family:inherit; cursor:pointer; transition:background .15s ease, transform .05s ease;
+    width:100%;
+    height:52px;
+    border:none;
+    border-radius:14px;
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    font-family:inherit;
+    cursor:pointer;
+    transition:background .15s ease, transform .05s ease;
   }
   button:active:not(:disabled){transform:scale(0.98);}
   button.primary{background:var(--accent);}
@@ -77,67 +174,151 @@
   button.primary:disabled{background:var(--accent-disabled); cursor:not-allowed;}
   button.danger{background:var(--danger);}
   button.danger:hover:not(:disabled){background:var(--danger-hover);}
-  button.secondary{background:#F2F4F7; color:var(--text-primary);}
+  button.secondary{background:#F2F4F7; color:var(--text-primary); height:44px; font-size:13px;}
   button.secondary:hover:not(:disabled){background:#E4E7EC;}
   button + button{margin-top:12px;}
-  .divider{border:none; border-top:1px solid var(--border); margin:24px 0;}
-  .section-label{
-    font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;
-    color:var(--text-secondary); margin:0 0 12px;
+  .divider{
+    border:none;
+    border-top:1px solid var(--border);
+    margin:24px 0;
   }
-  #reader{width:100%; border-radius:16px; overflow:hidden; margin-bottom:16px; display:none;}
-  .back-link{display:inline-block; margin-top:16px; font-size:13px; color:var(--text-secondary); cursor:pointer; text-decoration:underline;}
-  .footer-help{margin-top:20px;}
-  .footer-help a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .or-divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:16px 0;
+    color:var(--text-secondary);
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+  .or-divider::before, .or-divider::after{
+    content:'';
+    flex:1;
+    border-top:1px solid var(--border);
+  }
+  .edit-link{
+    display:inline-block;
+    color:var(--accent);
+    font-size:14px;
+    font-weight:600;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .edit-link:hover{color:var(--accent-hover);}
+  .section-label{
+    font-size:13px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--text-secondary);
+    margin:0 0 12px;
+  }
+  .link-box{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    border:1.5px solid var(--border);
+    border-radius:12px;
+    padding:10px 12px;
+    margin:14px 0 4px;
+  }
+  .link-box span{
+    font-size:12px;
+    color:var(--text-secondary);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    flex:1;
+  }
+  .link-box button{
+    width:auto;
+    height:auto;
+    border:none;
+    background:#F2F4F7;
+    color:var(--text-primary);
+    font-size:12px;
+    font-weight:600;
+    padding:6px 10px;
+    border-radius:8px;
+    cursor:pointer;
+    font-family:inherit;
+    flex-shrink:0;
+  }
+  .link-box button:hover{background:#E4E7EC;}
+  .back-link{
+    display:inline-block;
+    margin-top:16px;
+    font-size:13px;
+    color:var(--text-secondary);
+    cursor:pointer;
+    text-decoration:underline;
+  }
 </style>
 </head>
 <body>
 
 <div class="card">
 
-  <!-- LANGKAH 1: Scan QR atau input kode manual -->
-  <div id="scanView">
-    <h1>Kelola Kartu</h1>
-    <p class="desc">Scan QR di kartu Anda untuk mengedit info bisnis, link Google Review, PIN, atau mereset kartu.</p>
-
-    <div id="reader"></div>
-
-    <button class="primary" id="scanBtn">Scan QR Kartu</button>
-    <p class="error-msg" id="scanError"></p>
-
-    <hr class="divider">
-
-    <label for="manualCode">Atau masukkan kode kartu manual</label>
-    <input type="text" id="manualCode" placeholder="Contoh: AB3XK9Q2" autocomplete="off" style="margin-bottom:12px;">
-    <button class="secondary" id="manualBtn">Lanjut</button>
+  <div id="loadingView">
+    <p class="desc" style="margin:0;">Memeriksa kartu...</p>
   </div>
 
-  <!-- LANGKAH 2: Verifikasi PIN -->
-  <div id="pinGateView" style="display:none;">
-    <h1>Masukkan PIN</h1>
-    <p class="desc">Kode kartu: <b id="gateCardCode"></b>. Masukkan PIN yang dibuat saat aktivasi untuk melanjutkan.</p>
+  <!-- Masukkan kode kartu (kalau link tidak membawa ?kode=) -->
+  <div id="codeView" style="display:none;">
+    <h1>Kelola Kartu</h1>
+    <p class="desc">Masukkan kode kartu Anda. Kode ini tertera di link kartu atau di kartu fisik.</p>
+    <div class="field">
+      <label for="codeInput">Kode Kartu</label>
+      <input type="text" id="codeInput" placeholder="Contoh: ZN35C7SJ" autocomplete="off" style="text-transform:uppercase;">
+    </div>
+    <p class="error-msg" id="codeErrorMsg"></p>
+    <button class="primary" id="codeSubmitBtn" style="margin-top:12px;">Lanjut</button>
+  </div>
 
+  <!-- Kartu belum aktif -->
+  <div id="inactiveView" style="display:none;">
+    <h1>Kartu Belum Aktif</h1>
+    <p class="desc">Kartu <b id="inactiveCode"></b> belum diaktifkan. Aktifkan dulu kartunya sebelum bisa dikelola.</p>
+    <button class="primary" id="goActivateBtn">Aktifkan Kartu Sekarang</button>
+    <span class="back-link" id="inactiveBackLink">&larr; Pakai kode lain</span>
+  </div>
+
+  <!-- Gerbang PIN -->
+  <div id="gateView" style="display:none;">
+    <h1>Kelola Kartu</h1>
+    <p class="desc">Kartu <b id="gateCode"></b> terhubung ke <b id="gateBizName"></b>. Masukkan PIN untuk melanjutkan.</p>
     <div class="field">
       <input type="password" class="pin-box" id="gatePinInput" inputmode="numeric" maxlength="6" placeholder="••••••">
     </div>
-
     <p class="error-msg" id="gateErrorMsg"></p>
-    <button class="primary" id="gateSubmitBtn">Buka</button>
-    <span class="back-link" id="gateBackLink">&larr; Scan/kode lain</span>
+    <button class="primary" id="gateSubmitBtn" style="margin-top:12px;">Buka</button>
+    <button class="secondary" id="openReviewBtn">Tes Buka Halaman Review</button>
   </div>
 
-  <!-- LANGKAH 3: Edit kartu -->
+  <!-- Halaman edit -->
   <div id="editView" style="display:none;">
     <h1>Edit Info Kartu</h1>
-    <p class="desc">Kode kartu: <b id="editCardCodeText"></b></p>
+    <p class="desc">Kode kartu: <b id="editCode"></b><br>Bisnis saat ini: <b id="editCurrentBiz"></b></p>
 
-    <p class="section-label">Ganti Nama & Alamat Bisnis</p>
+    <p class="section-label">Ganti Nama Bisnis</p>
     <div class="field">
       <input type="text" id="editBizInput" placeholder="Ketik nama bisnis baru..." autocomplete="off">
       <div class="dropdown" id="editDropdown"></div>
       <div class="confirm" id="editConfirmBox"></div>
     </div>
-    <button class="primary" id="saveBizBtn" disabled>Simpan Bisnis Baru</button>
+
+    <div class="or-divider">atau</div>
+
+    <div class="field">
+      <label for="editMapsLinkInput">Tempel Link Google Maps Bisnis</label>
+      <input type="text" id="editMapsLinkInput" placeholder="Tempel link share dari Google Maps di sini" autocomplete="off">
+      <button type="button" class="secondary" id="editMapsLinkBtn" style="margin-top:8px;">Cari dari Link Maps</button>
+      <p class="pin-hint">Buka bisnis di Google Maps &rarr; tekan <b>Bagikan</b> &rarr; <b>Salin link</b>, lalu tempel di sini.</p>
+    </div>
+
+    <button class="primary" id="saveBizBtn" disabled style="margin-top:20px;">Simpan Bisnis Baru</button>
 
     <hr class="divider">
 
@@ -145,7 +326,7 @@
     <div class="field">
       <input type="password" class="pin-box" id="newPinInput" inputmode="numeric" maxlength="6" placeholder="PIN baru">
     </div>
-    <button class="primary" id="savePinBtn">Simpan PIN Baru</button>
+    <button class="primary" id="savePinBtn" style="margin-top:12px;">Simpan PIN Baru</button>
 
     <hr class="divider">
 
@@ -156,353 +337,296 @@
     <p class="error-msg" id="editErrorMsg"></p>
     <p class="success-msg" id="editSuccessMsg"></p>
 
-    <span class="back-link" id="editBackLink">&larr; Kelola kartu lain</span>
+    <span class="back-link" id="logoutLink">&larr; Keluar</span>
   </div>
 
-  <div class="footer-help">
+  <div id="footerHelp" style="display:none;">
     <hr class="divider" style="margin:20px 0 14px;">
     <p class="pin-hint" style="text-align:center; margin:0;">
-      Butuh bantuan? <a href="#" id="adminLink" target="_blank" rel="noopener">Hubungi Admin via WhatsApp</a>
+      Butuh bantuan? <a href="#" id="adminLink" target="_blank" rel="noopener" style="color:var(--accent); font-weight:600; text-decoration:none;">Hubungi Admin via WhatsApp</a>
     </p>
   </div>
 
 </div>
 
 <script>
-// ============================================================
-// KONFIGURASI
-// ============================================================
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby1w5-WLfH3pbkFBhv6JI-T7GNL6-Mp2yV5glQHtBqMKJ3FdZ_HHJlLTNVaqCEiYS5wvg/exec';
-const ADMIN_WHATSAPP = '6282188777879';
+const ADMIN_WHATSAPP = '6287792004009';
+const ACTIVATION_PAGE = 'https://ariqup.github.io/kartu/';
 
-// ============================================================
-// ELEMEN & STATE
-// ============================================================
-const scanView = document.getElementById('scanView');
-const pinGateView = document.getElementById('pinGateView');
-const editView = document.getElementById('editView');
-
-let CARD_CODE = null;
-let verifiedPin = null;
+const urlParams = new URLSearchParams(window.location.search);
+let CARD_CODE = (urlParams.get('kode') || '').trim().toUpperCase();
 let currentLink = null;
+let verifiedPin = null;
 
-function showOnly(view) {
-  [scanView, pinGateView, editView].forEach(v => v.style.display = 'none');
-  view.style.display = 'block';
+// Lokasi (opsional) untuk mempertajam pencarian nama bisnis
+let userLat = '', userLng = '';
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    (pos) => { userLat = pos.coords.latitude; userLng = pos.coords.longitude; },
+    () => {}
+  );
 }
 
-function updateAdminLink() {
-  const message = 'Halo Admin, saya butuh bantuan mengelola kartu.' + (CARD_CODE ? ('\nKode kartu: ' + CARD_CODE) : '');
-  document.getElementById('adminLink').href = 'https://wa.me/' + ADMIN_WHATSAPP + '?text=' + encodeURIComponent(message);
-}
-updateAdminLink();
+const $ = (id) => document.getElementById(id);
+const views = ['loadingView', 'codeView', 'inactiveView', 'gateView', 'editView'];
 
-// ============================================================
-// LANGKAH 1: SCAN QR / INPUT MANUAL
-// ============================================================
-const scanBtn = document.getElementById('scanBtn');
-const readerEl = document.getElementById('reader');
-const scanError = document.getElementById('scanError');
-let html5QrCode = null;
-let scanning = false;
-
-function extractCardCode(scannedText) {
-  try {
-    const url = new URL(scannedText);
-    const code = url.searchParams.get('kode');
-    if (code) return code;
-  } catch (e) { /* bukan URL valid */ }
-  if (/^[A-Za-z0-9]{4,}$/.test(scannedText.trim())) return scannedText.trim();
-  return null;
+function showOnly(id) {
+  views.forEach(v => $(v).style.display = (v === id) ? 'block' : 'none');
+  $('footerHelp').style.display = (id === 'loadingView') ? 'none' : 'block';
+  const msg = 'Halo Admin, saya butuh bantuan untuk Kartu Google Review.' + (CARD_CODE ? '\nKode kartu: ' + CARD_CODE : '');
+  $('adminLink').href = 'https://wa.me/' + ADMIN_WHATSAPP + '?text=' + encodeURIComponent(msg);
 }
 
-async function startScanning() {
-  scanError.style.display = 'none';
-  readerEl.style.display = 'block';
-  scanBtn.textContent = 'Batalkan Scan';
-  scanning = true;
-  html5QrCode = new Html5Qrcode('reader');
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 
-  try {
-    await html5QrCode.start(
-      { facingMode: 'environment' },
-      { fps: 10, qrbox: 240 },
-      (decodedText) => {
-        const code = extractCardCode(decodedText);
-        stopScanning();
-        if (code) {
-          goToPinGate(code);
-        } else {
-          scanError.textContent = 'QR yang di-scan bukan QR kartu yang valid. Coba lagi.';
-          scanError.style.display = 'block';
-        }
-      },
-      () => {}
-    );
-  } catch (err) {
-    scanning = false;
-    readerEl.style.display = 'none';
-    scanBtn.textContent = 'Scan QR Kartu';
-    scanError.textContent = 'Tidak bisa mengakses kamera. Pastikan izin kamera diizinkan, atau gunakan kode manual di bawah.';
-    scanError.style.display = 'block';
+async function callApi(params) {
+  const res = await fetch(APPS_SCRIPT_URL + '?' + new URLSearchParams(params).toString());
+  return res.json();
+}
+
+function serverErrorItem(data) {
+  const msg = (data && data.error) ? data.error : 'Respons server tidak dikenali';
+  if (msg === 'action tidak dikenali') {
+    return { name: '(Server belum diperbarui)', address: 'Fitur ini belum aktif di server. Hubungi admin.', placeId: '' };
   }
+  return { name: '(Gagal)', address: msg, placeId: '' };
 }
 
-function stopScanning() {
-  if (html5QrCode && scanning) html5QrCode.stop().catch(() => {});
-  scanning = false;
-  readerEl.style.display = 'none';
-  scanBtn.textContent = 'Scan QR Kartu';
-}
-
-scanBtn.addEventListener('click', () => { scanning ? stopScanning() : startScanning(); });
-
-document.getElementById('manualBtn').addEventListener('click', () => {
-  const code = document.getElementById('manualCode').value.trim();
-  scanError.style.display = 'none';
-  if (!code) {
-    scanError.textContent = 'Isi kode kartu terlebih dahulu.';
-    scanError.style.display = 'block';
-    return;
-  }
-  goToPinGate(code);
-});
-
-// ============================================================
-// LANGKAH 2: GERBANG PIN
-// ============================================================
-function goToPinGate(code) {
-  CARD_CODE = code;
-  updateAdminLink();
-  document.getElementById('gateCardCode').textContent = CARD_CODE;
-  document.getElementById('gatePinInput').value = '';
-  document.getElementById('gateErrorMsg').style.display = 'none';
-  showOnly(pinGateView);
-}
-
-document.getElementById('gateBackLink').addEventListener('click', () => {
-  document.getElementById('manualCode').value = '';
-  showOnly(scanView);
-});
-
-document.getElementById('gatePinInput').addEventListener('input', (e) => {
-  e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 6);
-});
-
-document.getElementById('gateSubmitBtn').addEventListener('click', async () => {
-  const gateErrorMsg = document.getElementById('gateErrorMsg');
-  const pin = document.getElementById('gatePinInput').value.trim();
-
-  if (pin.length !== 6) {
-    gateErrorMsg.textContent = 'PIN harus 6 digit angka.';
-    gateErrorMsg.style.display = 'block';
-    return;
-  }
-
-  try {
-    const params = new URLSearchParams({ action: 'verifyPin', cardCode: CARD_CODE, pin });
-    const res = await fetch(APPS_SCRIPT_URL + '?' + params.toString());
-    const data = await res.json();
-    if (!data.valid) throw new Error(data.error || 'PIN salah.');
-
-    verifiedPin = pin;
-    openEditView();
-  } catch (err) {
-    gateErrorMsg.textContent = err.message;
-    gateErrorMsg.style.display = 'block';
-  }
-});
-
-// ============================================================
-// LANGKAH 3: EDIT KARTU (bisnis, PIN, nonaktifkan)
-// ============================================================
 async function searchBusiness(query) {
   try {
-    const res = await fetch(APPS_SCRIPT_URL + '?action=search&q=' + encodeURIComponent(query));
-    const data = await res.json();
-    if (data.error) { console.error(data.error); return []; }
-    return data;
+    const p = { action: 'search', q: query };
+    if (userLat && userLng) { p.lat = userLat; p.lng = userLng; }
+    const data = await callApi(p);
+    return Array.isArray(data) ? data : [serverErrorItem(data)];
   } catch (err) {
-    console.error('Gagal mencari bisnis:', err);
-    return [];
+    return [{ name: '(Koneksi gagal)', address: 'Periksa internet lalu coba lagi.', placeId: '' }];
   }
 }
 
-function reviewLink(placeId) { return 'https://search.google.com/local/writereview?placeid=' + placeId; }
-
-function setupBusinessSearch(inputEl, dropdownEl, confirmEl, onSelect) {
-  let selected = null;
-  let searchTimer = null;
-
-  function showLoadingDropdown() {
-    dropdownEl.innerHTML = '<div class="dd-empty">Mencari...</div>';
-    dropdownEl.classList.add('open');
+async function searchBusinessByMapsLink(link) {
+  try {
+    const data = await callApi({ action: 'resolveMapsLink', url: link });
+    return Array.isArray(data) ? data : [serverErrorItem(data)];
+  } catch (err) {
+    return [{ name: '(Koneksi gagal)', address: 'Periksa internet lalu coba lagi.', placeId: '' }];
   }
-  function showDropdown(results, query) {
-    dropdownEl.innerHTML = '';
-    if (results.length === 0) {
-      dropdownEl.innerHTML = '<div class="dd-empty">Tidak ada bisnis ditemukan untuk "' + query + '"</div>';
-    } else {
-      results.forEach(place => {
-        const item = document.createElement('div');
-        item.className = 'dd-item';
-        item.innerHTML = '<div class="dd-name">' + place.name + '</div><div class="dd-addr">' + place.address + '</div>';
-        item.addEventListener('click', () => selectPlace(place));
-        dropdownEl.appendChild(item);
-      });
-    }
-    dropdownEl.classList.add('open');
-  }
-  function hideDropdown() { dropdownEl.classList.remove('open'); }
-  function selectPlace(place) {
-    selected = place;
-    inputEl.value = reviewLink(place.placeId);
-    confirmEl.innerHTML = 'Terpilih: <b>' + place.name + '</b> — ' + place.address;
-    confirmEl.style.display = 'block';
-    hideDropdown();
-    onSelect(place);
-  }
-  inputEl.addEventListener('input', () => {
-    if (selected) { selected = null; confirmEl.style.display = 'none'; onSelect(null); }
-    const q = inputEl.value.trim();
-    clearTimeout(searchTimer);
-    if (!q) { hideDropdown(); return; }
-    showLoadingDropdown();
-    searchTimer = setTimeout(async () => { showDropdown(await searchBusiness(q), q); }, 400);
-  });
-  inputEl.addEventListener('focus', async () => {
-    const q = inputEl.value.trim();
-    if (!selected && q) { showLoadingDropdown(); showDropdown(await searchBusiness(q), q); }
-  });
-  document.addEventListener('click', (e) => { if (!e.target.closest('.field')) hideDropdown(); });
-  return { getSelected: () => selected };
 }
 
-const saveBizBtn = document.getElementById('saveBizBtn');
-const editErrorMsg = document.getElementById('editErrorMsg');
-const editSuccessMsg = document.getElementById('editSuccessMsg');
+// ---------- Pencarian bisnis: nama + link Maps, satu dropdown ----------
+let selectedPlace = null;
+let searchTimer = null;
+const bizInput = $('editBizInput');
+const dropdown = $('editDropdown');
+const confirmBox = $('editConfirmBox');
+const mapsInput = $('editMapsLinkInput');
+const mapsBtn = $('editMapsLinkBtn');
+const saveBizBtn = $('saveBizBtn');
 
-const editSearch = setupBusinessSearch(
-  document.getElementById('editBizInput'),
-  document.getElementById('editDropdown'),
-  document.getElementById('editConfirmBox'),
-  (place) => { saveBizBtn.disabled = !place; }
-);
-
-function openEditView() {
-  document.getElementById('editCardCodeText').textContent = CARD_CODE;
-  document.getElementById('editBizInput').value = '';
-  document.getElementById('editConfirmBox').style.display = 'none';
-  document.getElementById('newPinInput').value = '';
+function clearSelection() {
+  selectedPlace = null;
+  confirmBox.style.display = 'none';
   saveBizBtn.disabled = true;
-  editErrorMsg.style.display = 'none';
-  editSuccessMsg.style.display = 'none';
-  showOnly(editView);
 }
 
-document.getElementById('editBackLink').addEventListener('click', () => {
-  CARD_CODE = null; verifiedPin = null;
-  document.getElementById('manualCode').value = '';
-  updateAdminLink();
-  showOnly(scanView);
+function showDropdownLoading() {
+  dropdown.innerHTML = '<div class="dd-empty">Mencari...</div>';
+  dropdown.classList.add('open');
+}
+
+function showDropdown(results, label) {
+  dropdown.innerHTML = '';
+  if (!results.length) {
+    dropdown.innerHTML = '<div class="dd-empty">Tidak ada bisnis ditemukan untuk "' + escapeHtml(label) + '"</div>';
+  } else {
+    results.forEach(place => {
+      const item = document.createElement('div');
+      item.className = 'dd-item';
+      item.innerHTML = '<div class="dd-name">' + escapeHtml(place.name) + '</div><div class="dd-addr">' + escapeHtml(place.address) + '</div>';
+      if (place.placeId) {
+        item.addEventListener('click', () => selectPlace(place));
+      } else {
+        item.style.cursor = 'default';
+      }
+      dropdown.appendChild(item);
+    });
+  }
+  dropdown.classList.add('open');
+}
+
+function selectPlace(place) {
+  selectedPlace = place;
+  confirmBox.innerHTML = 'Terpilih: <b>' + escapeHtml(place.name) + '</b> — ' + escapeHtml(place.address);
+  confirmBox.style.display = 'block';
+  dropdown.classList.remove('open');
+  saveBizBtn.disabled = false;
+}
+
+bizInput.addEventListener('input', () => {
+  clearSelection();
+  const q = bizInput.value.trim();
+  clearTimeout(searchTimer);
+  if (!q) { dropdown.classList.remove('open'); return; }
+  showDropdownLoading();
+  searchTimer = setTimeout(async () => showDropdown(await searchBusiness(q), q), 400);
 });
 
-saveBizBtn.addEventListener('click', async () => {
-  const place = editSearch.getSelected();
-  if (!place) return;
+async function runMapsLinkSearch() {
+  const link = mapsInput.value.trim();
+  if (!link) return;
+  clearSelection();
+  mapsBtn.disabled = true;
+  mapsBtn.textContent = 'Membaca link...';
+  showDropdownLoading();
+  showDropdown(await searchBusinessByMapsLink(link), 'link Maps');
+  mapsBtn.disabled = false;
+  mapsBtn.textContent = 'Cari dari Link Maps';
+}
+mapsBtn.addEventListener('click', runMapsLinkSearch);
+mapsInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') runMapsLinkSearch(); });
 
-  editErrorMsg.style.display = 'none';
-  editSuccessMsg.style.display = 'none';
-  saveBizBtn.disabled = true;
-  saveBizBtn.textContent = 'Menyimpan...';
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.field') && e.target !== mapsBtn) dropdown.classList.remove('open');
+});
 
+// ---------- Alur halaman ----------
+async function loadCard() {
+  if (!CARD_CODE) { showOnly('codeView'); return; }
+  showOnly('loadingView');
   try {
-    const params = new URLSearchParams({
-      action: 'update', cardCode: CARD_CODE, oldPin: verifiedPin,
-      newName: place.name, newAddress: place.address, newPlaceId: place.placeId
-    });
-    const res = await fetch(APPS_SCRIPT_URL + '?' + params.toString());
-    const data = await res.json();
-    if (!data.success) throw new Error(data.error || 'Gagal menyimpan.');
-
-    currentLink = reviewLink(place.placeId);
-    editSuccessMsg.textContent = 'Alamat/bisnis berhasil diganti ke "' + place.name + '".';
-    editSuccessMsg.style.display = 'block';
+    const data = await callApi({ action: 'checkStatus', cardCode: CARD_CODE });
+    if (data.activated) {
+      currentLink = data.link;
+      $('gateCode').textContent = CARD_CODE;
+      $('gateBizName').textContent = data.name || 'bisnis Anda';
+      $('gatePinInput').value = '';
+      $('gateErrorMsg').style.display = 'none';
+      showOnly('gateView');
+    } else {
+      $('inactiveCode').textContent = CARD_CODE;
+      showOnly('inactiveView');
+    }
   } catch (err) {
-    editErrorMsg.textContent = err.message;
-    editErrorMsg.style.display = 'block';
+    $('codeErrorMsg').textContent = 'Gagal memeriksa kartu. Periksa internet lalu coba lagi.';
+    $('codeErrorMsg').style.display = 'block';
+    showOnly('codeView');
+  }
+}
+
+$('codeSubmitBtn').addEventListener('click', () => {
+  const code = $('codeInput').value.trim().toUpperCase();
+  if (!code) {
+    $('codeErrorMsg').textContent = 'Kode kartu wajib diisi.';
+    $('codeErrorMsg').style.display = 'block';
+    return;
+  }
+  $('codeErrorMsg').style.display = 'none';
+  CARD_CODE = code;
+  history.replaceState(null, '', window.location.pathname + '?kode=' + encodeURIComponent(CARD_CODE));
+  loadCard();
+});
+$('codeInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('codeSubmitBtn').click(); });
+
+$('goActivateBtn').addEventListener('click', () => {
+  window.location.href = ACTIVATION_PAGE + '?kode=' + encodeURIComponent(CARD_CODE);
+});
+$('inactiveBackLink').addEventListener('click', () => { CARD_CODE = ''; $('codeInput').value = ''; showOnly('codeView'); });
+
+$('openReviewBtn').addEventListener('click', () => { if (currentLink) window.open(currentLink, '_blank'); });
+
+function onlyDigits(el) {
+  el.addEventListener('input', () => { el.value = el.value.replace(/[^0-9]/g, '').slice(0, 6); });
+}
+onlyDigits($('gatePinInput'));
+onlyDigits($('newPinInput'));
+
+$('gateSubmitBtn').addEventListener('click', async () => {
+  const err = $('gateErrorMsg');
+  const pin = $('gatePinInput').value.trim();
+  if (pin.length !== 6) { err.textContent = 'PIN harus 6 digit angka.'; err.style.display = 'block'; return; }
+
+  const btn = $('gateSubmitBtn');
+  btn.disabled = true; btn.textContent = 'Memeriksa...';
+  try {
+    const data = await callApi({ action: 'verifyPin', cardCode: CARD_CODE, pin });
+    if (!data.valid) throw new Error(data.error || 'PIN salah.');
+    verifiedPin = pin;
+    $('editCode').textContent = CARD_CODE;
+    $('editCurrentBiz').textContent = data.name || '-';
+    bizInput.value = ''; mapsInput.value = ''; $('newPinInput').value = '';
+    clearSelection();
+    $('editErrorMsg').style.display = 'none';
+    $('editSuccessMsg').style.display = 'none';
+    showOnly('editView');
+  } catch (e) {
+    err.textContent = e.message; err.style.display = 'block';
   } finally {
+    btn.disabled = false; btn.textContent = 'Buka';
+  }
+});
+$('gatePinInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('gateSubmitBtn').click(); });
+
+function showEditMsg(ok, text) {
+  $('editErrorMsg').style.display = 'none';
+  $('editSuccessMsg').style.display = 'none';
+  const el = ok ? $('editSuccessMsg') : $('editErrorMsg');
+  el.textContent = text; el.style.display = 'block';
+}
+
+saveBizBtn.addEventListener('click', async () => {
+  if (!selectedPlace) return;
+  saveBizBtn.disabled = true; saveBizBtn.textContent = 'Menyimpan...';
+  try {
+    const data = await callApi({
+      action: 'update', cardCode: CARD_CODE, oldPin: verifiedPin,
+      newName: selectedPlace.name, newAddress: selectedPlace.address, newPlaceId: selectedPlace.placeId
+    });
+    if (!data.success) throw new Error(data.error || 'Gagal menyimpan perubahan.');
+    $('editCurrentBiz').textContent = selectedPlace.name;
+    currentLink = 'https://search.google.com/local/writereview?placeid=' + selectedPlace.placeId;
+    showEditMsg(true, 'Bisnis berhasil diganti ke ' + selectedPlace.name + '. Kartu sekarang langsung mengarah ke halaman ulasan bisnis ini.');
+    bizInput.value = ''; mapsInput.value = '';
+    clearSelection();
+  } catch (e) {
+    showEditMsg(false, e.message);
     saveBizBtn.disabled = false;
+  } finally {
     saveBizBtn.textContent = 'Simpan Bisnis Baru';
   }
 });
 
-document.getElementById('savePinBtn').addEventListener('click', async () => {
-  const newPinInput = document.getElementById('newPinInput');
-  newPinInput.value = newPinInput.value.replace(/[^0-9]/g, '').slice(0, 6);
-
-  editErrorMsg.style.display = 'none';
-  editSuccessMsg.style.display = 'none';
-
-  if (newPinInput.value.length !== 6) {
-    editErrorMsg.textContent = 'PIN baru harus 6 digit angka.';
-    editErrorMsg.style.display = 'block';
-    return;
-  }
-
-  const btn = document.getElementById('savePinBtn');
-  btn.disabled = true;
-  btn.textContent = 'Menyimpan...';
-
+$('savePinBtn').addEventListener('click', async () => {
+  const newPin = $('newPinInput').value.trim();
+  if (newPin.length !== 6) { showEditMsg(false, 'PIN baru harus 6 digit angka.'); return; }
   try {
-    const params = new URLSearchParams({ action: 'update', cardCode: CARD_CODE, oldPin: verifiedPin, newPin: newPinInput.value });
-    const res = await fetch(APPS_SCRIPT_URL + '?' + params.toString());
-    const data = await res.json();
-    if (!data.success) throw new Error(data.error || 'Gagal menyimpan PIN baru.');
-
-    verifiedPin = newPinInput.value;
-    editSuccessMsg.textContent = 'PIN berhasil diganti.';
-    editSuccessMsg.style.display = 'block';
-    newPinInput.value = '';
-  } catch (err) {
-    editErrorMsg.textContent = err.message;
-    editErrorMsg.style.display = 'block';
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Simpan PIN Baru';
+    const data = await callApi({ action: 'update', cardCode: CARD_CODE, oldPin: verifiedPin, newPin });
+    if (!data.success) throw new Error(data.error || 'Gagal mengganti PIN.');
+    verifiedPin = newPin;
+    $('newPinInput').value = '';
+    showEditMsg(true, 'PIN berhasil diganti.');
+  } catch (e) {
+    showEditMsg(false, e.message);
   }
 });
 
-document.getElementById('deactivateBtn').addEventListener('click', async () => {
-  if (!confirm('Yakin mau menonaktifkan kartu ' + CARD_CODE + '? Link review saat ini akan berhenti berfungsi.')) return;
-
-  editErrorMsg.style.display = 'none';
-  editSuccessMsg.style.display = 'none';
-  const btn = document.getElementById('deactivateBtn');
-  btn.disabled = true;
-  btn.textContent = 'Memproses...';
-
+$('deactivateBtn').addEventListener('click', async () => {
+  if (!confirm('Yakin mau nonaktifkan kartu ini? Link review saat ini akan terputus.')) return;
   try {
-    const params = new URLSearchParams({ action: 'reset', cardCode: CARD_CODE, pin: verifiedPin });
-    const res = await fetch(APPS_SCRIPT_URL + '?' + params.toString());
-    const data = await res.json();
+    const data = await callApi({ action: 'reset', cardCode: CARD_CODE, pin: verifiedPin });
     if (!data.success) throw new Error(data.error || 'Gagal menonaktifkan kartu.');
-
-    editSuccessMsg.textContent = 'Kartu berhasil dinonaktifkan.';
-    editSuccessMsg.style.display = 'block';
-    setTimeout(() => {
-      CARD_CODE = null; verifiedPin = null;
-      document.getElementById('manualCode').value = '';
-      updateAdminLink();
-      showOnly(scanView);
-    }, 1500);
-  } catch (err) {
-    editErrorMsg.textContent = err.message;
-    editErrorMsg.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'Nonaktifkan Kartu Ini';
+    verifiedPin = null;
+    $('inactiveCode').textContent = CARD_CODE;
+    showOnly('inactiveView');
+  } catch (e) {
+    showEditMsg(false, e.message);
   }
 });
+
+$('logoutLink').addEventListener('click', () => { verifiedPin = null; loadCard(); });
+
+loadCard();
 </script>
 
 </body>
