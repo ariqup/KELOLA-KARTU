@@ -308,6 +308,7 @@
     <p class="error-msg" id="gateErrorMsg"></p>
     <button class="primary" id="gateSubmitBtn" style="margin-top:12px;">Buka</button>
     <button class="secondary" id="openReviewBtn">Tes Buka Halaman Review</button>
+    <a id="forgotPinLink" href="#" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:14px;font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;">Lupa PIN? Minta reset ke admin</a>
   </div>
 
   <!-- Halaman edit -->
@@ -390,6 +391,8 @@ function showOnly(id) {
   $('footerHelp').style.display = (id === 'loadingView') ? 'none' : 'block';
   const msg = 'Halo Admin, saya butuh bantuan untuk Kartu Google Review.' + (CARD_CODE ? '\nKode kartu: ' + CARD_CODE : '');
   $('adminLink').href = 'https://wa.me/' + ADMIN_WHATSAPP + '?text=' + encodeURIComponent(msg);
+  const forgotMsg = 'Halo Admin, saya lupa PIN Kartu Google Review dan ingin reset PIN.\nKode kartu: ' + CARD_CODE + '\nNama bisnis: ';
+  $('forgotPinLink').href = 'https://wa.me/' + ADMIN_WHATSAPP + '?text=' + encodeURIComponent(forgotMsg);
 }
 
 function escapeHtml(s) {
@@ -619,7 +622,7 @@ $('savePinBtn').addEventListener('click', async () => {
     if (!data.success) throw new Error(data.error || 'Gagal mengganti PIN.');
     verifiedPin = newPin;
     $('newPinInput').value = '';
-    showEditMsg(true, 'PIN berhasil diganti.');
+    showEditMsg(true, 'PIN berhasil diganti. Catat PIN baru Anda, karena admin tidak bisa melihatnya.');
   } catch (e) {
     showEditMsg(false, e.message);
   }
